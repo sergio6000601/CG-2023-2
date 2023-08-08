@@ -1,0 +1,24 @@
+<html>
+<body>
+<h1>Javascript ─ Funciones ─</h1>
+<button onclick="location.href = 'index.html';">Regresar</button>
+<br/><br/>
+<pre>
+function mcd(a, b) {  // Halla el máximo común divisor entre a y b
+  return b == 0 ? a : mcd(b, a % b);
+}
+
+function deg2PIrad(g) {  //  conversion de grados sexagesimales a π radianes
+  if (g == Math.trunc(g)) {
+    cd = mcd(g, 180);
+    return [g / cd, 180 / cd];
+  } else if (Math.trunc(180/g) == 180/g) {
+    return [1, 180/g];
+  } else {
+    return [g/180];  
+  }
+}
+</pre><br/>
+<p><a href="https://w3schools.com/js/js_functions.asp" target="_blank">Tutorial sobre funciones</a></p>
+</body>
+</html>
