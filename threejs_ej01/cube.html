@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>MDN Games: Three.js demo</title>
+	<style>
+		body { margin: 0; padding: 0; font-size: 0; }
+		canvas { width: 100%; height: 100%; }
+	</style>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+//lo primero para hacer un proyecto en three js necesitamos una escena
+const scene = new THREE.Scene();
+//la camara PerspectiveCamera recibe: campo de vision(FOV) en grados radianes
+//radio de aspecto(4:3,1080*1920,etc), cercania y lejania
+const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+//para crear el renderizador necesitamos dar los valores en los que renderiza
+const renderer = new THREE.WebGLRenderer();
+//los parametros usados en este caso son el ancho y el alto de la pantalla del navegador
+renderer.setSize( window.innerWidth, window.innerHeight );
+document.body.appendChild( renderer.domElement );
+
+//necesitamos tambien crear el objeto, en este caso un cubo, con ayuda de BoxGeometry
+// que recibe los vertices del objeto 
+const geometry = new THREE.BoxGeometry( 1, 1, 1 );
+//lo siguiente que recibir este objeto es el material que tendra en este 
+//caso MeshBasicMaterial y el color que tomara
+const material = new THREE.MeshBasicMaterial( { color: 0x550055 } );
+//lo siguiente que necesitamos es un objeto al cual ademas de añadirle 
+//la textura y el color podamos mover facilmente, para esto usamos Mesh
+const cube = new THREE.Mesh( geometry, material );
+//al usar scene.add lo que añadamos sera añadido al origen de la pagina
+scene.add( cube );
+
+// para evitar que la camara este dentro del objeto moveremos un poco la camara 
+camera.position.z = 5;
+
+//lo siguiente que haremos sera una funcion para mover el cubo
+function animate() {
+	requestAnimationFrame( animate );
+	//al usar cube.rotation el cubo se movera usualmente a 60 fps el valor indicado
+	cube.rotation.x += 0.01;
+	cube.rotation.y += 0.01;
+
+	renderer.render( scene, camera );
+}
+
+animate();
+</script>
+</body>
+</html>
