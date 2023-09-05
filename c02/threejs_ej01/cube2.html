@@ -9,11 +9,11 @@
 	</style>
 </head>
 <body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="three.min.js"></script>
 <script>
 //lo primero para hacer un proyecto en three js necesitamos una escena
 const scene = new THREE.Scene();
-//la camara PerspectiveCamera recibe: campo de vision(FOV) en grados radianes
+//la camara PerspectiveCamera recibe: campo de vision(FOV) en grados 
 //radio de aspecto(4:3,1080*1920,etc), cercania y lejania
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
@@ -23,11 +23,11 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
-//necesitamos tambien crear el objeto, en este caso un cubo, con ayuda de BoxGeometry
-// que recibe los vertices del objeto 
+//necesitamos tambien crear el objeto, en este caso un cubo, con ayuda de BoxGeometry 
+//que recibe los vertices del objeto 
 const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-//lo siguiente que recibir este objeto es el material que tendra en este 
-//caso MeshBasicMaterial y el color que tomara
+//lo siguiente que recibir este objeto es el material que tendra en este caso 
+//MeshBasicMaterial y el color que tomara
 const material = new THREE.MeshBasicMaterial( { color: 0x550055 } );
 //lo siguiente que necesitamos es un objeto al cual ademas de añadirle 
 //la textura y el color podamos mover facilmente, para esto usamos Mesh
