@@ -3,7 +3,7 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
 //le añado la camara ortogonal (con un nombre "diferente" para evitar errores)
-const camera1 = new THREE.OrthographicCamera(-10, 20, 20, -20, 1, 1000 );
+const camera1 = new THREE.OrthographicCamera(-10, 10, 5, -5, 1, 1000 );
 scene.add( camera1 );
 
 const renderer = new THREE.WebGLRenderer();
@@ -14,14 +14,14 @@ document.body.appendChild( renderer.domElement );
 const geometry = new THREE.BoxGeometry( 1.5, 1.5, 1.5 );
 const material1 = new THREE.MeshNormalMaterial( { color: 0xff00ff } );
 const cube = new THREE.Mesh( geometry, material1 );
-const posicion = cube.position.set(2,0,4,1)
+const posicion = cube.position.set(-3,0,4,1)
 scene.add( cube );
 
 //genero la esfera con spheregeometry
 const geometry1 = new THREE.SphereGeometry( 1, 32, 32 );
 const material2 = new THREE.MeshDistanceMaterial( { color: 0xfffff0 } );
 const sphere = new THREE.Mesh( geometry1, material2 );
-const posicion2 = sphere.position.set(8,0,4,1)
+const posicion2 = sphere.position.set(3,0,4,1)
 scene.add(sphere);
 
 camera.position.z = 10;
