@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Custom Polygonal Mesh with Three.js</title>
+    <title>Custom Conical Mesh with Three.js</title>
     <style>
       body {
         margin: 0;
@@ -25,38 +25,58 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
       document.body.appendChild(renderer.domElement);
 
-      // Define custom vertices for the cube
-      const vertices = [
-        new THREE.Vector3(-1, -1, -1),
-        new THREE.Vector3(1, -1, -1),
-        new THREE.Vector3(1, 1, -1),
-        new THREE.Vector3(-1, 1, -1),
-        new THREE.Vector3(-1, -1, 1),
-        new THREE.Vector3(1, -1, 1),
-        new THREE.Vector3(1, 1, 1),
-        new THREE.Vector3(-1, 1, 1),
-      ];
+      // Define parameters for the conical mesh
+      const radiusTop = 0; // Top radius of the cone
+      const radiusBottom = 2; // Bottom radius of the cone
+      const height = 3; // Height of the cone
+      const radialSegments = 32; // Number of radial segments for the cone
+      const heightSegments = 1; // Number of height segments for the cone
 
-      // Define faces using indices of vertices
-      const faces = [
-        new THREE.Face3(0, 1, 2),
-        new THREE.Face3(0, 2, 3),
-        new THREE.Face3(4, 5, 6),
-        new THREE.Face3(4, 6, 7),
-        new THREE.Face3(0, 1, 5),
-        new THREE.Face3(0, 5, 4),
-        new THREE.Face3(2, 3, 7),
-        new THREE.Face3(2, 7, 6),
-        new THREE.Face3(0, 3, 7),
-        new THREE.Face3(0, 7, 4),
-        new THREE.Face3(1, 2, 6),
-        new THREE.Face3(1, 6, 5),
-      ];
+      // Create a custom BufferGeometry for the cone
+      const geometry = new THREE.BufferGeometry();
 
-      // Create a custom geometry
-      const geometry = new THREE.Geometry();
-      geometry.vertices = vertices;
-      geometry.faces = faces;
+      // Create arrays to hold the vertex positions and indices
+      const positions = [];
+      const indices = [];
+
+      // Create vertices for the cone
+      for (let y = 0; y <= heightSegments; y++) {
+        const v = y / heightSegments;
+        const radius = v * (radiusBottom - radiusTop) + radiusTop;
+        for (let x = 0; x <= radialSegments; x++) {
+          const u = x / radialSegments;
+          const theta = u * 2 * Math.PI;
+          const xCoord = radius * Math.sin(theta);
+          const yCoord = -v * height + height / 2;
+          const zCoord = radius * Math.cos(theta);
+
+          positions.push(xCoord, yCoord, zCoord);
+        }
+      }
+
+      // Create faces for the cone
+      for (let i = 0; i < heightSegments; i++) {
+        for (let j = 0; j < radialSegments; j++) {
+          const a = i * (radialSegments + 1) + j;
+          const b = a + radialSegments + 1;
+          const c = a + 1;
+          const d = b + 1;
+
+          indices.push(a, b, c);
+          indices.push(b, d, c);
+        }
+      }
+
+      // Create Float32Arrays from the arrays
+      const positionsArray = new Float32Array(positions);
+      const indicesArray = new Uint16Array(indices);
+
+      // Add positions and indices to the BufferGeometry
+      geometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(positionsArray, 3)
+      );
+      geometry.setIndex(new THREE.BufferAttribute(indicesArray, 1));
 
       // Create a material
       const material = new THREE.MeshBasicMaterial({
@@ -75,7 +95,7 @@
       const animate = () => {
         requestAnimationFrame(animate);
 
-        // Rotate the cube
+        // Rotate the cone
         customMesh.rotation.x += 0.01;
         customMesh.rotation.y += 0.01;
 
@@ -86,3 +106,5 @@
     </script>
   </body>
 </html>
+
+
