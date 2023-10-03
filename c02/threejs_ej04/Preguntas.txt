@@ -1,0 +1,8 @@
+vemos que al momento de cambiar la forma de la linea por una recta es posible ajustar el tubo a la forma pero se debe ajustar las variables 
+del tubo de nuevo para poder generar una linea recta sin problemas, el tubo uede tomar una forma mas ancha en este caso
+en cuanto al cambio de materiales, iluminacion y variables del tubo:
+al cambiar el grosor del tubo y el material usado obtenemos un tubo un poco mas delgado o ancho dependiendo pero con materiales que pueden necesitar
+una iluminacion, asi dependiendo del material empleado el tubo podria lucir diferente segun esto.
+la iluminacion como se dijo antes puede ser o no necesaria para ayudar a distinguir el tubo pero en una gran parte de los casos, es innecesaria ya que el tubo
+se puede distinguir a simple vista, el sombreado por otra parte puede ser necesario para algunas texturas coo la basica, la cual no nos permite distinguir bien
+la forma del tubo mostrandonos un tubo que pareciese plano
