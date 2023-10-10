@@ -80,7 +80,9 @@ const indix = new Uint16Array([
 ]);
 
 // Create a material
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+const material1 = new THREE.MeshBasicMaterial( {color: 0xff0000} );
+const material2 = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+const material3 = new THREE.MeshBasicMaterial( {color: 0xff00ff} );
 
 // Create the first cube using the custom geometry and material
 const cube1Geometry = new THREE.BufferGeometry();
@@ -92,15 +94,15 @@ cube2Geometry.setIndex(new THREE.BufferAttribute(indis, 1));
 const cube3Geometry = new THREE.BufferGeometry();
 cube3Geometry.setAttribute('position', new THREE.BufferAttribute(vertis, 3));
 cube3Geometry.setIndex(new THREE.BufferAttribute(indix, 1));
-const cube1 = new THREE.Mesh(cube2Geometry, material);
+const cube1 = new THREE.Mesh(cube2Geometry, material1);
 cube1.position.set(0, 1.2, 0); // Adjust the position to stack on top
 
 // Create the second cube
-const cube2 = new THREE.Mesh(cube3Geometry, material);
+const cube2 = new THREE.Mesh(cube3Geometry, material2);
 cube2.position.set(0, 0, 0);
 
 // Create the third cube
-const cube3 = new THREE.Mesh(cube1Geometry, material);
+const cube3 = new THREE.Mesh(cube1Geometry, material3);
 cube3.position.set(0, -1.7, 0);
 
 // Add all three cubes to the scene
