@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lambert and Phong Illumination Example</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cs.wellesley.edu/~cs307/threejs/libs/three-r80.min.js"></script>
+    <script src="https://cs.wellesley.edu/~cs307/threejs/libs/OrbitControls-r95.js"></script>
+    <script>
+        // Lambert and Phong illumination shaders
+        const lambertVertexShader = `
+            varying vec3 vNormal;
+            void main() {
+                vNormal = normalize(normalMatrix * normal);
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+        `;
+
+        const lambertFragmentShader = `
+            varying vec3 vNormal;
+            void main() {
+                vec3 light = vec3(1.0, 1.0, 1.0);
+                light = normalize(light);
+                float dProd = dot(vNormal, light);
+                gl_FragColor = vec4(dProd * vec3(0.8, 0.8, 0.8), 1.0);
+            }
+        `;
+
+        const phongVertexShader = `
+            varying vec3 vNormal;
+            void main() {
+                vNormal = normalize(normalMatrix * normal);
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+        `;
+
+        const phongFragmentShader = `
+            varying vec3 vNormal;
+            void main() {
+                vec3 light = vec3(1.0, 1.0, 1.0);
+                light = normalize(light);
+                vec3 viewDir = normalize(-vec3(gl_FragCoord));
+                vec3 reflectDir = reflect(-light, vNormal);
+                float dProd = max(dot(vNormal, light), 0.0);
+                float sProd = pow(max(dot(reflectDir, viewDir), 0.0), 32.0);
+                gl_FragColor = vec4((0.8 * dProd) + (0.5 * sProd), (0.8 * dProd) + (0.5 * sProd), (0.8 * dProd) + (0.5 * sProd), 1.0);
+            }
+        `;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.25;
+        controls.enableZoom = true;
+
+        const geometry1 = new THREE.BoxGeometry();
+        const material1 = new THREE.ShaderMaterial({
+            vertexShader: lambertVertexShader,
+            fragmentShader: lambertFragmentShader
+        });
+        const cube1 = new THREE.Mesh(geometry1, material1);
+        cube1.position.set(-2, 0, 0);
+        scene.add(cube1);
+
+        const geometry2 = new THREE.SphereGeometry(1, 32, 32);
+        const material2 = new THREE.ShaderMaterial({
+            vertexShader: phongVertexShader,
+            fragmentShader: phongFragmentShader
+        });
+        const sphere = new THREE.Mesh(geometry2, material2);
+        sphere.position.set(2, 0, 0);
+        scene.add(sphere);
+
+        camera.position.z = 5;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
