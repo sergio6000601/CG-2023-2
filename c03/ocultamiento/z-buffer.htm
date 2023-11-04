@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Three.js Z-Buffer Example</title>
+    <style>
+      body { margin: 0; }
+    </style>
+  </head>
+  <body>
+    <script src="https://threejs.org/build/three.js"></script>
+    <script>
+      // Configuración básica de la escena
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      var renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      // Crear tres objetos
+      var geometry1 = new THREE.BoxGeometry();
+      var material1 = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+      var cube1 = new THREE.Mesh(geometry1, material1);
+      cube1.position.set(-1, 0, -10);
+
+      var geometry2 = new THREE.BoxGeometry();
+      var material2 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+      var cube2 = new THREE.Mesh(geometry2, material2);
+      cube2.position.set(0, 0, -5);
+
+      var geometry3 = new THREE.BoxGeometry();
+      var material3 = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+      var cube3 = new THREE.Mesh(geometry3, material3);
+      cube3.position.set(1, 0, -2);
+
+      scene.add(cube1, cube2, cube3);
+
+      // Posición de la cámara
+      camera.position.z = 5;
+
+      // Renderizar la escena
+      var animate = function () {
+        requestAnimationFrame(animate);
+
+        // Rotar los cubos
+        cube1.rotation.x += 0.01;
+        cube1.rotation.y += 0.01;
+
+        cube2.rotation.x += 0.01;
+        cube2.rotation.y += 0.01;
+
+        cube3.rotation.x += 0.01;
+        cube3.rotation.y += 0.01;
+
+        renderer.render(scene, camera);
+      };
+
+      animate();
+    </script>
+  </body>
+</html>
